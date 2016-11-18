@@ -54,30 +54,25 @@ for url in urls.keys():
 	    source_code = driver.find_element_by_xpath("//*").get_attribute("outerHTML")
 	    soup = BeautifulSoup(source_code)
 
-	    jobs = soup.find_all("article") #gets list of 25 jobs 
+	    jobs = soup.find_all("article") #gets list of 25 jobs
 
 
 	    for elt in jobs:
 	        jobAttrs = {}
 
-	        jobAttrs['link'] = elt.find("a")['href']
 	        jobAttrs['applied?'] = 0
-	        jobAttrs['title'] = elt.find("div", class_="jobTitle").get_text().encode('ascii', 'ignore')
-	        jobAttrs["company"] = elt.find("div", class_="company").get_text().encode('ascii', 'ignore')
-	        jobAttrs["location"] = elt.find("div", class_="location").get_text().encode('ascii', 'ignore')
-	        jobAttrs["preview"] = elt.find("div", class_="preview").get_text().encode('ascii', 'ignore')
 	        jobAttrs['link'] = elt.find("a")['href'].split('?',1)[0]
 	        jobAttrs['original_link'] = elt.find("a")['href']
 	        jobAttrs['title'] = elt.find("div", class_="jobTitle").get_text().encode('ascii','ignore')
 	        jobAttrs["company"] = elt.find("div", class_="company").get_text().encode('ascii','ignore')
 	        jobAttrs["location"] = elt.find("div", class_="location").get_text().encode('ascii','ignore')
-	        jobAttrs["preview"] = elt.find("div", class_="preview").get_text().encode('ascii','ignore')
+	        # jobAttrs["preview"] = elt.find("div", class_="preview").get_text().encode('ascii','ignore')
 	        jobAttrs['full'] = str(elt)
 	        jobAttrs['colleges'] = sample(colleges,4)
 	        jobAttrs['firstnames'] = sample(firstnames,4)
 	        jobAttrs['lastnames'] = sample(lastnames,4)
 	        jobAttrs['resumes'] = sample(resumes,4)
-	        jobAttrs['addresses'] = sample(addresses,4) 
+	        jobAttrs['addresses'] = sample(addresses,4)
 	        jobAttrs['zipcodes'] = sample(zipcodes,4)
 	        jobAttrs['type'] = urls[url][1].lower()
 	        jobAttrs['city'] = urls[url][0]
@@ -103,5 +98,3 @@ with open('dataset.csv', 'wb') as output_file:
     	dict_writer.writerows(dataset)
     except UnicodeEncodeError:
 		pass
-
-
